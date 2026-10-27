@@ -190,7 +190,13 @@ if run:
         st.session_state["result"] = (checked_pos, checked_agg, recheck, result_file)
     except Exception as exc:
         st.session_state.pop("result", None)
-        st.error(f"Validation failed: {exc}")
+    
+        st.error(
+            f"Validation failed: {type(exc).__name__}: {repr(exc)}"
+        )
+    
+        with st.expander("Show detailed error"):
+            st.exception(exc)
 
 if "result" in st.session_state:
     checked_pos, checked_agg, recheck, result_file = st.session_state["result"]
